@@ -1,0 +1,41 @@
+name: repo
+
+on:
+  push:
+    branches:
+      - 'test-*'
+      - 'test_*'
+      - 'releases/**'
+
+jobs:
+  build-packages:
+    runs-on: self-hosted
+    env:
+      ARCH: amd64
+    container:
+      image: chimeralinux/chimera
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          submodules: true
+
+      - name: Installing dependencies
+        run: |
+          apk update
+          apk add base-cbuild-bootstrap
+          cd cports
+          ./cbuild keygen
+          ./cbuild binary-bootstrap
+          ./cbuild pkg main/apk-tools
+          cd ..
+
+      - name: Uploading packages
+        uses: actions/upload-artifact@v4
+        with:
+          name: packages
+          path: cports/(packages|key)
+
+
+
+
