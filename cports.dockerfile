@@ -1,8 +1,6 @@
 ARG VERSION=latest
 FROM chimeralinux/chimera:${VERSION}
 
-ENV PACKAGE=main/acl
-
 RUN apk add --no-interactive                 \
         bash                                 \
         shadow                               \
@@ -15,8 +13,10 @@ USER admin
 VOLUME /build
 WORKDIR /build/cports
 
+ENV PACKAGE=main/acl
+
 CMD true \
   && /bin/bash -c "./cbuild keygen || true"            \
   && /bin/bash -c "./cbuild binary-bootstrap || true"  \
-  && /bin/bash -c "./cbuild pkg ${PACKAGE}"
+  && ./cbuild pkg ${PACKAGE}
 

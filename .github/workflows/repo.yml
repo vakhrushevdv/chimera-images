@@ -25,7 +25,7 @@ jobs:
       - name: Building docker image
         run: |
           docker build -t chimera-cports-builder -f cports.dockerfile .
-          docker run -e PACKAGE=$PACKAGE --rm -v $(pwd):/build chimera-cports-builder
+          docker run --privileged -e PACKAGE=$PACKAGE --rm -v $(pwd):/build chimera-cports-builder
 
       - name: Uploading packages
         uses: actions/upload-artifact@v4
