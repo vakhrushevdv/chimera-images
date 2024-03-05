@@ -12,7 +12,7 @@ jobs:
     runs-on: self-hosted
     env:
       ARCH: amd64
-      PACKAGE: main/apk-tools 
+      PACKAGE: main/acl 
     steps:
       - uses: actions/checkout@v4
         with:
